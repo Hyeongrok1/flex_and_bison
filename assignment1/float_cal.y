@@ -1,6 +1,6 @@
 %{
     #include <stdio.h>    
-    #define YYSTYPE double
+    #define YYSTYPE double // make yylval type double
 %}
 
 %token NUMBER
@@ -12,12 +12,12 @@
 %%
 
 calclist:
- | calclist exp EOL { printf("= %g\n", $2); } /* second of patterns (exp) */
+ | calclist exp EOL { printf("= %g\n", $2); }
  | calclist EOL { }
  ;
 
 exp: factor
- | exp ADD factor { $$ = $1 + $3; } /* $$ is exp itself */
+ | exp ADD factor { $$ = $1 + $3; }
  | exp SUB factor { $$ = $1 - $3; }
  ;
 
@@ -26,8 +26,8 @@ factor: term
  | exp DIV term { $$ = $1 / $3; }
  ;
 
-term: NUMBER | FLOAT
- | ABS term { $$ = $2 >= 0 ? $2 : -$2; }
+term: NUMBER | FLOAT // number or float point
+ | ABS term ABS { $$ = $2 >= 0 ? $2 : -$2; }
  | OP exp CP { $$ = $2;}
  ;
 %%
